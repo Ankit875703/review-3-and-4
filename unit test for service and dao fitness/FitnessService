@@ -1,0 +1,27 @@
+public class FitnessService {
+    private FitnessDAO fitnessDAO;
+
+    public FitnessService(FitnessDAO fitnessDAO) {
+        this.fitnessDAO = fitnessDAO;
+    }
+
+    public boolean registerMember(Member member) {
+        if (member == null || member.getName().isEmpty()) {
+            throw new IllegalArgumentException("Invalid member details");
+        }
+        return fitnessDAO.saveMember(member);
+    }
+
+    public Member getMemberDetails(int memberId) {
+        return fitnessDAO.getMemberById(memberId);
+    }
+
+    public boolean updateMemberPlan(int memberId, FitnessPlan plan) {
+        Member member = fitnessDAO.getMemberById(memberId);
+        if (member == null) {
+            throw new IllegalArgumentException("Member not found");
+        }
+        member.setFitnessPlan(plan);
+        return fitnessDAO.updateMember(member);
+    }
+}
